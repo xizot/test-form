@@ -10,8 +10,15 @@
   },
   "dependencies": {
     "@next/font": "13.2.1",
+    "@pdf-lib/fontkit": "^1.1.1",
+    "axios": "^1.3.4",
+    "downloadjs": "^1.4.7",
     "next": "13.2.1",
+    "path": "^0.12.7",
+    "pdf-lib": "^1.17.1",
+    "pdfkit": "^0.13.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-signature-canvas": "^1.0.6"
   }
 }

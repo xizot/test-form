@@ -1,7 +1,7 @@
-import { readFileSync, writeFileSync } from 'fs';
-import path from 'path';
-import { PDFDocument, StandardFonts } from 'pdf-lib';
-import fontkit from '@pdf-lib/fontkit';
+import { readFileSync, writeFileSync } from "fs";
+import path from "path";
+import { PDFDocument, StandardFonts } from "pdf-lib";
+import fontkit from "@pdf-lib/fontkit";
 
 export default async (req, res) => {
     try {
@@ -10,26 +10,26 @@ export default async (req, res) => {
 
         if (!name || !age || !phone) {
             return res.status(500).json({
-                errorMessage: 'Vui lòng điền đầy đủ thông tin',
+                errorMessage: "Vui lòng điền đầy đủ thông tin",
             });
         }
 
         // Load the PDF template file
-        const templatePath = path.resolve(process.cwd(), 'public/template.pdf');
+        const templatePath = path.resolve(process.cwd(), "public/template.pdf");
         const pdfBuffer = readFileSync(templatePath);
         const pdfDoc = await PDFDocument.load(pdfBuffer);
 
         const fontByes = readFileSync(
-            path.resolve(process.cwd(), 'public/SVN-Times New Roman.ttf')
+            path.resolve(process.cwd(), "public/SVN-Times New Roman.ttf")
         );
         pdfDoc.registerFontkit(fontkit);
         const font = await pdfDoc.embedFont(fontByes);
 
         const form = pdfDoc.getForm();
 
-        const nameField = form.getTextField('name');
-        const ageField = form.getTextField('age');
-        const phoneField = form.getTextField('phone');
+        const nameField = form.getTextField("name");
+        const ageField = form.getTextField("age");
+        const phoneField = form.getTextField("phone");
         nameField.setText(name);
         ageField.setText(age);
         phoneField.setText(phone);
@@ -38,21 +38,17 @@ export default async (req, res) => {
 
         // Serialize the PDF document and send it as a response
         const pdfBytes = await pdfDoc.save();
-
-        const savePath = path.resolve(
-            process.cwd(),
-            'public/template_filled.pdf'
-        );
-        writeFileSync(savePath, pdfBytes, { encoding: 'utf8', flag: 'w' });
+        const filePath = path.join("/tmp", "template_filled.pdf'");
+        writeFileSync(filePath, pdfBytes, { encoding: "utf8", flag: "w" });
 
         res.status(200).json({
-            message: 'ok',
+            message: "ok",
             path: savePath,
         });
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            errorMessage: 'An error occurred while generating the PDF file',
+            errorMessage: "An error occurred while generating the PDF file",
         });
     }
 };

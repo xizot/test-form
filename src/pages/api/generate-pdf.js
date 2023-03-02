@@ -43,7 +43,7 @@ export default async (req, res) => {
 
         res.status(200).json({
             message: "ok",
-            path: savePath,
+            path: filePath,
         });
     } catch (error) {
         console.error(error);
